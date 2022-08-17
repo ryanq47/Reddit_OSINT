@@ -27,10 +27,10 @@ SYNTAX:  <br>
  <br>
 
 EXAMPLES:  <br>
-python3 main.py -s ferrari --sort hot -sbr idiotsincars --limit 30 --time all -vd   <br>
+python3 reddit_osint.py -s ferrari --sort hot -sbr idiotsincars --limit 30 --time all -vd   <br>
 or  <br>
-python3 main.py -s "*" --limit 5 -vd   <br>
+python3 reddit_osint.py -s "*" --limit 5 -vd   <br>
 or  <br>
-python3 main.py -s "*"  <br>
+python3 reddit_osint.py -s "*"  <br>
 
 NOTE: There may be an error with Pandas, Pandas 1.4.3 is the version you need incase you run into any trouble
