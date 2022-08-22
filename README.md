@@ -18,7 +18,7 @@ SYNTAX:  <br>
   
   
   Filters:  <br>
-  **--sort**: sort by top, hot, new, comments <-(most comments)  <br>
+  **--sort**: sort by top, hot, new, controversial, comments <-(most comments)  <br>
   **--time**: Time to filter by: all, year, month, day, hour !! needs -sort flag to work !! <br>
   **--limit**: How many posts to display on screen, max is 100 (NOTE: The higher the limit, the longer the search takes)  <br>
   Alternative Searches:  <br>
