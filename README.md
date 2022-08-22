@@ -28,7 +28,7 @@ A CLI tool for Reddit
   **-c**: Search for a comment (BETA - limited to top level comments only)  <br>
  <br>
 
-EXAMPLES:  <br>
+***EXAMPLES***:  <br>
 **General Usage:** <br>
 > python3 reddit_osint.py -s "*" --limit 5 -vd   <br>
  ![image](https://user-images.githubusercontent.com/91687869/185832243-5468563c-1f4b-41c9-88ab-5538ecb09af7.png)
