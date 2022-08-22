@@ -13,16 +13,9 @@
 
 
 
-'''
-##############################
-## Reddit Login Info
-SECRET_TOKEN = "TOKEN HERE"
-CLIENT_ID= "ID HERE"
 
-REDDIT_USERNAME = "USERNAME HERE"
-REDDIT_PASSWORD = "PASSWORD HERE"
-##############################
-'''
+
+
 
 ##USE TABS
 #basic imports
@@ -58,6 +51,24 @@ from json2html import *
 #making this look somewhwat okay
 import pyfiglet
 
+
+####################
+## Credentials
+####################
+
+load_creds = open("config/credentials.json")
+
+creds = json.load(load_creds)
+
+## Reddit Login Info
+SECRET_TOKEN = creds['SECRET_TOKEN']
+CLIENT_ID= creds['CLIENT_ID']
+
+REDDIT_USERNAME = creds['REDDIT_USERNAME']
+REDDIT_PASSWORD = creds['REDDIT_PASSWORD']
+
+USER_AGENT = "Beta Bot 0.1.1"
+##############################
 
 ####################
 ## Arg Parse
@@ -613,7 +624,8 @@ def file_handle_LINK(res):
 ##########
 ## Main Run
 ##########
-startup()
-OAuth()
+if __name__ == "__main__":
+    startup()
+    OAuth()
 
 
