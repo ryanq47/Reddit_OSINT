@@ -27,6 +27,10 @@ SYNTAX:  <br>
  <br>
 
 EXAMPLES:  <br>
+**General Usage:** <br>
+python3 reddit_osint.py -s "*" --limit 5 -vd   <br>
+ ![image](https://user-images.githubusercontent.com/91687869/185832243-5468563c-1f4b-41c9-88ab-5538ecb09af7.png)
+ 
 **Filtered Usage:** <br>
 python3 reddit_osint.py -s ferrari --sort hot -sbr idiotsincars --limit 30 --time all -vd   <br>
  ![image](https://user-images.githubusercontent.com/91687869/185832130-422d4da7-0aa7-4301-9864-85e07f0d4974.png)
@@ -35,9 +39,7 @@ python3 reddit_osint.py -s ferrari --sort hot -sbr idiotsincars --limit 30 --tim
 python3 reddit_osint.py -s "*@gmail.com" -c <br>
  ![image](https://user-images.githubusercontent.com/91687869/185832385-59d820c9-6cb1-423e-a971-9d099e368b5d.png)
 
-**General Usage:** <br>
-python3 reddit_osint.py -s "*" --limit 5 -vd   <br>
- ![image](https://user-images.githubusercontent.com/91687869/185832243-5468563c-1f4b-41c9-88ab-5538ecb09af7.png)
+
 
 
 
