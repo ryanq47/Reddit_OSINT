@@ -3,11 +3,11 @@ A CLI tool for Reddit
 
 ![image](https://user-images.githubusercontent.com/91687869/184547440-d7ea63fe-d642-4960-b45d-107debeb1fb4.png)
 
-SETUP:
+***SETUP***:
  You will need a reddit secret token, client ID and reddit login to use this tool (enter this info into 'config/credentials.json')<br>
  Follow this guide [here](https://12ft.io/proxy?q=https%3A%2F%2Ftowardsdatascience.com%2Fhow-to-use-the-reddit-api-in-python-5e05ddfd1e5c)
 
-SYNTAX:  <br>
+***SYNTAX***:  <br>
   **-h**: Help  <br>
   **-s**: Search (use "*" for wildcard/all, and "" for mutli word searches: "RTX 3090 release date"  <br> 
 > NOTE: Reddit will search for the exact string first (ex "RTX 3090 release date") and then search based on each word if there are no matches/it runs out of matches to display (ex: RTX, 3090, release, date) <br>
@@ -19,7 +19,7 @@ SYNTAX:  <br>
 
   
   
-  Filters:  <br>
+  ***FILTERS***:  <br>
   **--sort**: sort by top, hot, new, controversial, comments <-(most comments)  <br>
   **--time**: Time to filter by: all, year, month, day, hour !! needs -sort flag to work !! <br>
   **--limit**: How many posts to display on screen, max is 100 (NOTE: The higher the limit, the longer the search takes)  <br>
