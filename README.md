@@ -4,7 +4,7 @@ A CLI tool for Reddit
 ![image](https://user-images.githubusercontent.com/91687869/184547440-d7ea63fe-d642-4960-b45d-107debeb1fb4.png)
 
 SETUP:
- You will need a reddit secret token, client ID and reddit login to use this tool <br>
+ You will need a reddit secret token, client ID and reddit login to use this tool (enter this info into 'config/credentials.json')<br>
  Follow this guide [here](https://12ft.io/proxy?q=https%3A%2F%2Ftowardsdatascience.com%2Fhow-to-use-the-reddit-api-in-python-5e05ddfd1e5c)
 
 SYNTAX:  <br>
