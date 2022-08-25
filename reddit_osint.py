@@ -1,7 +1,7 @@
 #Doc: https://towardsdatascience.com/how-to-use-the-reddit-api-in-python-5e05ddfd1e5c
 
 ## ideas: requests counter to see how many in hour (due to reddit APIlimitation)
-#pyshorteners: https://pyshorteners.readthedocs.io/en/latest/ <<SUPER AWESOME
+#pyshorteners: https://pyshorteners.readthedocs.io/en/latest/ <<SUPER AWESOME !! note: osdb + tinyurl do not need API login
 
 #praw : https://praw.readthedocs.io/en/stable/tutorials/comments.html
 
@@ -46,6 +46,7 @@ import json
 import subprocess as sp
 import os
 from json2html import *
+import re
 
 
 #making this look somewhwat okay
@@ -86,7 +87,7 @@ parser.add_argument('-sbr','--subreddit', required=False, help="Search a subredd
 
 ## -- Specific type searches -- ##
 parser.add_argument('-c', action='store_true', required=False, help="##Currently Broken ## Export JSON data in HTML format (No CSS data so it is very ugly, but cleaner than raw json)") #store as html
-parser.add_argument('-u', action='store_true', required=False, help="User Profile Search") #store as html
+parser.add_argument('-u', action='store_true', required=False, help="User Profile Search - note! Cannot search for specific terms within the user's profile (...yet) so put username in -s flag") #store as html
 
 ##Filters
 parser.add_argument('--sort', required=False, help="Sort by: top, hot, new, controversial, comments" ) #store as html
@@ -233,26 +234,86 @@ def search(): #<< Where all the logic/decisions will go, based on arguments. if 
         #print("DEBUG: args.u")
         res = requests.get("https://oauth.reddit.com/user/" + search_term + "/" + filter_sort.replace("&","?") + filter_time + filter_limit,
             headers=OAuth.headers)
+        error_handle(res)
         user_search_process(res)
 
     elif args.c:
         print("DEBUG: args.c")
         res = requests.get("https://oauth.reddit.com/search/?q=" + search_term + filter_sort + filter_time + filter_limit + "&type=comment",
             headers=OAuth.headers)
+        error_handle(res)
         comment_search_process(res)
 
     elif args.subreddit == None:     
         res = requests.get("https://oauth.reddit.com/search/?q=" + search_term + filter_sort + filter_time + filter_limit,
             headers=OAuth.headers)
+        error_handle(res)
         search_process(res)
 
     ## -- Subreddit Search -- ##
     else:
         res = requests.get("https://oauth.reddit.com/r/" + args.subreddit + "/search/?q=" + search_term + "&restrict_sr=on" + filter_sort + filter_time + filter_limit,
             headers=OAuth.headers)
+        error_handle(res)
         search_process(res)    
     
     ## -- Sending through the filter to be displayed properly -- ##
+
+def error_handle(res):
+    args = parser.parse_args()
+
+    if 1 == 100:
+        pass
+
+    
+
+    ####################
+    ## Response Error Handling - must go first in error chain, otherwise you get a key error 
+    ####################
+    elif '{"kind": "Listing", "data": {"after": null, "dist": 0, "modhash": null, "geo_filter": "", "children": [], "before": null}}' in res.text:
+        print(f"""
+##--> 'r/{args.subreddit}' most likely does not exist :(
+    ##--> Maybe create it?\n""")
+        print("##--> " + res.text)
+        exit()
+    ## Banned Subreddit 
+    elif '"reason": "banned"' in res.text:
+        print(f"""
+##--> '{args.subreddit}' has been banned
+    ##--> Nothing you can do about this one \n""")
+        print("##--> " + res.text)
+        exit()
+
+    ## Not Found error (keep at end so more detailed errors can be had if possible)
+    elif '"message": "Not Found"' in res.text:
+        print(f"""
+##--> '{args.search}' '{args.subreddit}' Not Found
+    ##--> Check Username, Subbreddit, etc to ensure it exists\n""")
+        print("##--> " + res.text)
+        exit()
+
+    ####################
+    ## Warning Filtering
+    ####################
+
+    if args.time not in [None, "all", "now", "week", "day", "month", "year"]:
+        print(f"[yellow]##--> WARNING: '{args.time}' is not a valid time search parameter, results may be unexpected")
+
+    if args.sort not in [None, "all", "new", "top", "rising", "controversial", "hot", "comments"]:
+        print(f"[yellow]##--> WARNING: '{args.sort}' is not a valid sorting parameter, results may be unexpected")
+
+    if int(args.limit) > 1000:
+        print(f"[yellow]##--> WARNING: '{args.limit}' is outside of valid limit range (1-1000)")
+    ####################
+    ## Unsupported flag warning? might take some work
+    ####################
+    
+    else:
+        pass
+    
+    print("\n")
+
+
     
 
 def comment_search():
@@ -351,6 +412,7 @@ def search_process(res):
             'Date/Time Created (UTC) |': datetime.fromtimestamp(post['data']['created_utc']).strftime('%Y-%m-%d | %H:%M:%S'),
         }, ignore_index=True)
 
+
     ## -- Error handling incase no subreddit is supplied -- ##
 
     if args.subreddit == None:
@@ -363,8 +425,8 @@ def search_process(res):
     info_banner = ("================ [red]Subreddit: " + subreddit + " | Search Term: " + search_term + "[/red] || [blue] Relevance: " + filter_sort[6:12] +" | Time: " + filter_time[3:12] + " | Number of Results: " + filter_limit[7:18] + "[/blue] ================")
     print(info_banner[:142]) ##limits length to make it look pretty when printing
     print("==============================================================================================================================================\n")
-   
-    ## -- printing Banner/Table -- ##
+
+
     print(df)
     
 def comment_search_process(res):
@@ -473,12 +535,26 @@ def user_search_process(res):
 
     pd.options.display.max_rows = 100
     pd.set_option('display.max_colwidth', 0)
+    ####################
+    ## Regex
+    ####################
+    #with open("file", "r") as f:
+        #f.write(res.text)
+        #a = f.read()
+    ## -- Email -- ##
+
+
+
+    email = re.findall('\S+@\S+', res.text)  #https://uibakery.io/regex-library/phone-number-python
+
+    phone = re.findall("\d{3}-\d{3}-\d{4}", res.text) #https://www.w3schools.com/python/python_regex.asp
 
     ####################
     ## Main Loop
     ####################
+
     for post in track(res.json()['data']['children'], description="Retrieving reddit data..."):
-    ## -->> Error: You probably entered the username wrong - or have an unsupported flag :) <<--
+    ## -->> Error: You probably entered the username wrong - or have an unsupported flag - or the user dosen't exist :) <<--
     ################################################################################
 
     ## Getting Post URL ##
@@ -506,10 +582,6 @@ def user_search_process(res):
             #search.comment = "[Comment: ] "
             search.comment = ""
 
-
-    ################################################################################
-
-
     ## --Saving JSON-- ##           
         if args.json_html:
             #pass
@@ -524,7 +596,7 @@ def user_search_process(res):
         post_url_raw = post['data']['permalink'] ## This is where the r/LINK data is stored, so I have to add reddit.com/ infront of it
         post_url_permalink = "https://reddit.com/" + post_url_raw
         s = pyshorteners.Shortener()
-        post_url= s.tinyurl.short(post_url_permalink)
+        post_url= s.osdb.short(post_url_permalink)
 
     ## -- Sorting uPvotes/Downvotes -- ##
         upvote = post['data']['ups']
@@ -532,16 +604,12 @@ def user_search_process(res):
 
         upvotes_downvotes = str(upvote) + " | " + str(downvote)
 
-    ## -- COmments -- ##
-        #comment_raw = post['data']['selftext']
-        #if comment_raw == "":
-            #comment = "TERM found, check here -->"
-        #else:
-            #comment = comment_raw[:25]
-    
+        ################################################################################
+
     ################
-     ## Final Formmating 
+     ## DataFrame Formatting
     ################
+
         df = df.append({
             #'URL': post['data']['secure_media']['reddit_video']['fallback_url'],
             'User  |': post['data']['author'], ## Link to user account
@@ -559,13 +627,19 @@ def user_search_process(res):
     else:
         subreddit = "r/" + args.subreddit
 
-    ## -- Banner/Table structure -- ##
+    ################
+     ## Banner/Table
+    ################
+
     print("==============================================================================================================================================")
     info_banner = ("================ [red]Subreddit: " + subreddit + " | Search Term: " + search_term + "[/red] || [blue] Relevance: " + filter_sort[6:20] +" | Time: " + filter_time[3:12] + " | Results: " + filter_limit[7:50])
     print(info_banner[:155]) ##limits length to make it look pretty when printing
-    print("==============================================================================================================================================\n")
-   
-    ## -- printing Banner/Table -- ##
+    print("==============================================================================================================================================")
+    user_info_banner = ("================ [red]Possible Email: " + str(email) + " | Phone Number: " + str(phone) + "[/red] || [blue] Other: " + "other.github.com" + " ================")
+    print(user_info_banner)  
+    print("==============================================================================================================================================")
+
+    ## -- printing dataframe -- ##
     print(df)
 
 ###############
@@ -620,6 +694,8 @@ def file_handle_LINK(res):
         f.close()
     except: 
         pass
+
+
 
 ##########
 ## Main Run
