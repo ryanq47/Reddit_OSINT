@@ -51,8 +51,7 @@ help you get the info you need, and fast!
  ![image](https://user-images.githubusercontent.com/91687869/186962286-02637dff-bcab-4d8e-90a6-df9125ed08d0.png)
 
 **General Flow Diagram of how it works:** <br>
- ![image](https://user-images.githubusercontent.com/91687869/186962586-8d2c800c-0ba5-4e83-83de-876021c16e10.png)
-
+ ![image](https://user-images.githubusercontent.com/91687869/186962871-d7e7c762-5480-45a5-a75d-121881e02f66.png)
 
 
 NOTE: There may be an error with Pandas, Pandas 1.4.3 is the version you need incase you run into any trouble
