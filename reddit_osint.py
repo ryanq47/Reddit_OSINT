@@ -171,7 +171,7 @@ def intro_options():
     else:
         print("Saving Links: [red] Disabled")
     if args.vd:
-        print("Downloading Media: [green] Enabled")in
+        print("Downloading Media: [green] Enabled")
     else:
         print("Downloading Media: [red] Disabled")
     if args.c:
