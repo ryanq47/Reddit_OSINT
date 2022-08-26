@@ -1,5 +1,10 @@
 # Reddit_OSINT
-A CLI tool for Reddit
+Boring Description: A CLI tool for Reddit
+
+Fun Description: Ever wanted to search reddit without being sucked into the hivemind? Well here is your solution!
+This simple, easy to use Command Line tool allows you to cut out the BS, and find exactly what you are searchng for on the worlds most toxic
+website! (besides twitter) Better yet, if you are a security professional, or a simple script kiddie, you now have access to an OSINT tool that will 
+help you get the info you need, and fast!
 
 ![image](https://user-images.githubusercontent.com/91687869/184547440-d7ea63fe-d642-4960-b45d-107debeb1fb4.png)
 
