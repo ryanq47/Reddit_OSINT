@@ -48,8 +48,7 @@ help you get the info you need, and fast!
 
 **User Searching:**
 > python3 reddit_osint.py -s "ryanq47" -u <br>
- ![image](https://user-images.githubusercontent.com/91687869/186962114-f354b086-5235-4aac-9bc5-8399c3c0252d.png)
-
+ ![image](https://user-images.githubusercontent.com/91687869/186962286-02637dff-bcab-4d8e-90a6-df9125ed08d0.png)
 
 **General Flow Diagram of how it works:** <br>
  ![image](https://user-images.githubusercontent.com/91687869/186959433-a5dfd2a1-0eaa-4a9f-804f-a8e34ef234c5.png)
