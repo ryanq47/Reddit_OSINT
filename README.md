@@ -15,7 +15,7 @@ help you get the info you need, and fast!
 ***SYNTAX***:  <br>
   **-h**: Help  <br>
   **-s**: Search (use "*" for wildcard/all, and "" for mutli word searches: "RTX 3090 release date"  <br> 
-> NOTE: Reddit will search for the exact string first (ex "RTX 3090 release date") and then search based on each word if there are no matches/it runs out of matches to display (ex: RTX, 3090, release, date) <br>
+> NOTE: Reddit will search for the exact string first (ex "RTX 3090 release date") and then search based on each word if there are no matches/it runs out of matches to display (ex results containing: RTX, OR 3090, ORrelease, OR date) <br>
 
   **-sbr**: Subreddit to search   <br>
   **-vd**: Download videos attached to posts if available (auto sorted by subreddit) <br>
