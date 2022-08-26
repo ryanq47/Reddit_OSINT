@@ -171,7 +171,7 @@ def intro_options():
     else:
         print("Saving Links: [red] Disabled")
     if args.vd:
-        print("Downloading Media: [green] Enabled")
+        print("Downloading Media: [green] Enabled")in
     else:
         print("Downloading Media: [red] Disabled")
     if args.c:
@@ -301,9 +301,11 @@ def error_handle(res):
 
     if args.sort not in [None, "all", "new", "top", "rising", "controversial", "hot", "comments"]:
         print(f"[yellow]##--> WARNING: '{args.sort}' is not a valid sorting parameter, results may be unexpected")
-
-    if int(args.limit) > 1000:
-        print(f"[yellow]##--> WARNING: '{args.limit}' is outside of valid limit range (1-1000)")
+    try:
+        if int(args.limit) > 1000:
+            print(f"[yellow]##--> WARNING: '{args.limit}' is outside of valid limit range (1-1000)")
+    except:
+        pass
     ####################
     ## Unsupported flag warning? might take some work
     ####################
@@ -538,22 +540,14 @@ def user_search_process(res):
     ####################
     ## Regex
     ####################
-    #with open("file", "r") as f:
-        #f.write(res.text)
-        #a = f.read()
-    ## -- Email -- ##
-
-
-
-    email = re.findall('\S+@\S+', res.text)  #https://uibakery.io/regex-library/phone-number-python
-
-    phone = re.findall("\d{3}-\d{3}-\d{4}", res.text) #https://www.w3schools.com/python/python_regex.asp
+    info_grab(res)
 
     ####################
     ## Main Loop
     ####################
 
     for post in track(res.json()['data']['children'], description="Retrieving reddit data..."):
+    ################################################################################
     ## -->> Error: You probably entered the username wrong - or have an unsupported flag - or the user dosen't exist :) <<--
     ################################################################################
 
@@ -584,12 +578,10 @@ def user_search_process(res):
 
     ## --Saving JSON-- ##           
         if args.json_html:
-            #pass
             file_handle_JSON_in_HTML(res)
 
     ## -- Saving Link -- ##        
         if args.link:
-            #pass
             file_handle_LINK(res)
 
     ## -- Shortening URLS -- ##
@@ -603,8 +595,6 @@ def user_search_process(res):
         downvote = post['data']['downs']
 
         upvotes_downvotes = str(upvote) + " | " + str(downvote)
-
-        ################################################################################
 
     ################
      ## DataFrame Formatting
@@ -620,27 +610,28 @@ def user_search_process(res):
             'Date/Time Created (UTC) |': datetime.fromtimestamp(post['data']['created_utc']).strftime('%Y-%m-%d | %H:%M:%S'),
         }, ignore_index=True)
 
-    ## -- Error handling incase no subreddit is supplied -- ##
-
-    if args.subreddit == None:
-        subreddit = "r/All, All of reddit"
-    else:
-        subreddit = "r/" + args.subreddit
-
     ################
      ## Banner/Table
     ################
 
     print("==============================================================================================================================================")
-    info_banner = ("================ [red]Subreddit: " + subreddit + " | Search Term: " + search_term + "[/red] || [blue] Relevance: " + filter_sort[6:20] +" | Time: " + filter_time[3:12] + " | Results: " + filter_limit[7:50])
+    info_banner = ("================ [red] User: " + search_term + "[/red] || [blue] Relevance: " + filter_sort[6:20] +" | Time: " + filter_time[3:12] + " | Results: " + filter_limit[7:50] + "================")
     print(info_banner[:155]) ##limits length to make it look pretty when printing
     print("==============================================================================================================================================")
-    user_info_banner = ("================ [red]Possible Email: " + str(email) + " | Phone Number: " + str(phone) + "[/red] || [blue] Other: " + "other.github.com" + " ================")
+    user_info_banner = ("================ [yellow]Possible Email: " + str(info_grab.email) + " [/yellow]| [yellow] Phone Number: " + str(info_grab.phone) + "[/yellow] || [blue] Other: " + "other.github.com" + " [/blue] ================")
     print(user_info_banner)  
     print("==============================================================================================================================================")
 
     ## -- printing dataframe -- ##
     print(df)
+
+###############
+## Info Grab Logic
+################
+def info_grab(res):
+    info_grab.email = re.findall('\S+@\S+', res.text)  #https://uibakery.io/regex-library/phone-number-python
+    info_grab.phone = re.findall("\d{3}-\d{3}-\d{4}", res.text) #https://www.w3schools.com/python/python_regex.asp
+
 
 ###############
 ## Video Download Logic
