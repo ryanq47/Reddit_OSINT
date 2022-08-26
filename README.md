@@ -42,7 +42,7 @@ A CLI tool for Reddit
  ![image](https://user-images.githubusercontent.com/91687869/185832385-59d820c9-6cb1-423e-a971-9d099e368b5d.png)
 
 
-**General Flow Diagram of how it works**
+**General Flow Diagram of how it works** <br>
 ![image](https://user-images.githubusercontent.com/91687869/186959433-a5dfd2a1-0eaa-4a9f-804f-a8e34ef234c5.png)
 
 
